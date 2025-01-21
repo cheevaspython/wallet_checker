@@ -22,6 +22,7 @@ pytest-asyncio = "^0.24.0"
 typing-extensions = "^4.12.2"
 dishka = "^1.4.2"
 httpx = "^0.28.1"
+tronpy = "^0.5.0"
 
 
 [build-system]
