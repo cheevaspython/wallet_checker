@@ -6,15 +6,15 @@ from source.filters.pagination import Pagination
 
 
 @dataclass(slots=True, frozen=True)
-class GetApplications:
-    application_reader: WalletReader
+class GetWallets:
+    wallet_reader: WalletReader
 
     async def __call__(
         self,
         pagination: Pagination,
     ) -> WalletListPaginated:
 
-        wallets = await self.application_reader.get_list(
+        wallets = await self.wallet_reader.get_list(
             pagination=pagination,
         )
         return wallets

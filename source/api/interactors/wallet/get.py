@@ -4,7 +4,7 @@ from source.errors.does_not_exists import CustomDoesNotExist
 from source.types.model_id import ModelIdType
 
 
-class GetWallet:
+class GetWalletInteractor:
 
     def __init__(
         self,
