@@ -12,14 +12,14 @@ RUN pip install "setuptools"
 RUN pip install "poetry==$POETRY_VERSION"
 RUN pip install "typing_extensions"
 
-WORKDIR /example
-COPY poetry.lock pyproject.toml /example/
+WORKDIR /wallet_checker
+COPY poetry.lock pyproject.toml /wallet_checker/
 
 RUN poetry config installer.max-workers 10
 RUN poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi
 
-COPY . /example
+COPY . /wallet_checker
 
 RUN adduser --disabled-password docker-admin
 USER docker-admin
