@@ -6,7 +6,6 @@ from source.services.logging import logger
 
 @dataclass(eq=False)
 class CustomDoesNotExist(ApplicationError):
-
     class_name: str
     model_id: int | None = None
 
