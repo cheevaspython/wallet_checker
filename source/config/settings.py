@@ -1,6 +1,5 @@
 import os
 import pytz
-from typing import Tuple
 
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -63,18 +62,6 @@ class ApiPrefix(BaseModel):
     v1: ApiV1Prefix = ApiV1Prefix()
 
 
-class MediaPathSettings(BaseModel):
-    upload_image: str = "media/"
-
-
-class MediaTypesSettings(BaseModel):
-    accessed_types: Tuple[str, ...] = (
-        "image/jpeg",
-        "image/png",
-        "text/csv",
-    )
-
-
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env.template", ".env"),
@@ -87,8 +74,6 @@ class Settings(BaseSettings):
     tz: pytz.tzinfo.BaseTzInfo = pytz.timezone("Europe/Moscow")
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
-    media_files_path: MediaPathSettings = MediaPathSettings()
-    media_types: MediaTypesSettings = MediaTypesSettings()
 
 
 settings = Settings()

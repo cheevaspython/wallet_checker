@@ -58,7 +58,6 @@ services:
 volumes:
   application_db:
   static:
-  media:
 
 networks:
   app_network:
