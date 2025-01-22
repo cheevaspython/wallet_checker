@@ -5,6 +5,32 @@ from source.services.logging import logger
 
 
 @dataclass(eq=False)
+class TronResourcesParseError(ApplicationError):
+    address: str
+    error: str
+
+    @property
+    def message(self):
+        text = f"Cannot get resources data from address: {self.address}, error: {self.error}"
+        logger.warning(text)
+        return text
+
+
+@dataclass(eq=False)
+class TronBalanceParseError(ApplicationError):
+    address: str
+    error: str
+
+    @property
+    def message(self):
+        text = (
+            f"Cannot get balance data from address: {self.address}, error: {self.error}"
+        )
+        logger.warning(text)
+        return text
+
+
+@dataclass(eq=False)
 class BandwidthGetError(ApplicationError):
     address: str
 

@@ -2,9 +2,10 @@ from dataclasses import dataclass
 from decimal import Decimal
 
 
-@dataclass(frozen=True)
+@dataclass(slots=True, frozen=True)
 class CreateWalletInputData:
     address: str
-    bandwidth: int
-    energy: int
+    free_bandwidth: str
+    total_bandwidth: str
+    total_energy: str
     balance: Decimal

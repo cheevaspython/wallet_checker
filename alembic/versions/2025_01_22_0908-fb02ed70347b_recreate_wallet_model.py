@@ -1,8 +1,8 @@
-"""add wallet model
+"""recreate wallet model
 
-Revision ID: d7a279564b3f
+Revision ID: fb02ed70347b
 Revises: 
-Create Date: 2025-01-21 19:48:03.813755
+Create Date: 2025-01-22 09:08:52.252384
 
 """
 
@@ -12,7 +12,7 @@ from alembic import op
 import sqlalchemy as sa
 
 
-revision: str = "d7a279564b3f"
+revision: str = "fb02ed70347b"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -22,9 +22,10 @@ def upgrade() -> None:
     op.create_table(
         "wallets",
         sa.Column("address", sa.String(length=255), nullable=False),
-        sa.Column("bandwidth", sa.BigInteger(), nullable=False),
-        sa.Column("energy", sa.Integer(), nullable=False),
-        sa.Column("balance", sa.Numeric(precision=10, scale=2), nullable=False),
+        sa.Column("free_bandwidth", sa.String(length=255), nullable=False),
+        sa.Column("total_bandwidth", sa.String(length=255), nullable=False),
+        sa.Column("total_energy", sa.String(length=255), nullable=False),
+        sa.Column("balance", sa.Numeric(precision=20, scale=2), nullable=False),
         sa.Column("id", sa.BigInteger(), sa.Identity(always=False), nullable=False),
         sa.Column(
             "created_date",

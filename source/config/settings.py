@@ -61,6 +61,10 @@ class ApiPrefix(BaseModel):
     v1: ApiV1Prefix = ApiV1Prefix()
 
 
+class TronConf(BaseModel):
+    network: str = "nile"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=(".env.template", ".env"),
@@ -73,6 +77,7 @@ class Settings(BaseSettings):
     tz: pytz.tzinfo.BaseTzInfo = pytz.timezone("Europe/Moscow")
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
+    tron: TronConf = TronConf()
 
 
 settings = Settings()

@@ -1,7 +1,8 @@
 from tronpy import Tron
 
-from source.errors.tron import BandwidthGetError, EnergyGetError
-from source.schemas.other.tron import TronAccountData
+from source.config.settings import settings
+from source.errors.tron import TronBalanceParseError, TronResourcesParseError
+from source.schemas.other.tron import TronAccountData, TronResourceData
 
 
 class TronServiceImpl:
@@ -10,28 +11,39 @@ class TronServiceImpl:
         self,
         address: str,
     ) -> TronAccountData:
-        client = Tron()
-        balance = client.get_account_balance(address)
-        bandwidth, energy = await self._get_resources_data(
-            address=address,
-            client=client,
-        )
+        client = Tron(network=settings.tron.network)
+        try:
+            balance = client.get_account_balance(address)
+        except Exception as e:
+            raise TronBalanceParseError(
+                address=address,
+                error=str(e),
+            )
         return TronAccountData(
             balance=balance,
-            bandwidth=bandwidth,
-            energy=energy,
+            resources_data=await self._get_resources_data(
+                address=address,
+                client=client,
+            ),
         )
 
     async def _get_resources_data(
         self,
         address: str,
         client: Tron,
-    ) -> tuple[int, int]:
-        resources = client.get_account_resource(address)
-        bandwidth = resources.get("free_bandwidth", None)
-        energy = resources.get("energy", None)
-        if not bandwidth:
-            raise BandwidthGetError(address=address)
-        if not energy:
-            raise EnergyGetError(address=address)
-        return bandwidth, energy
+    ) -> TronResourceData:
+        try:
+            resources = client.get_account_resource(address)
+            free_bandwidth = resources.get("freeNetLimit", 0)
+            total_bandwidth = resources.get("TotalNetLimit", 0)
+            total_energy = resources.get("TotalEnergyLimit", 0)
+            return TronResourceData(
+                free_bandwidth=free_bandwidth,
+                total_bandwidth=total_bandwidth,
+                total_energy=total_energy,
+            )
+        except Exception as e:
+            raise TronResourcesParseError(
+                address=address,
+                error=str(e),
+            )

@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from sqlalchemy import BigInteger, Integer, Numeric, String
+from sqlalchemy import Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from source.db.models import Base
@@ -18,12 +18,15 @@ class Wallet(
         String(255),
         index=True,
     )
-    bandwidth: Mapped[int] = mapped_column(
-        BigInteger(),
+    free_bandwidth: Mapped[str] = mapped_column(
+        String(255),
     )
-    energy: Mapped[int] = mapped_column(
-        Integer(),
+    total_bandwidth: Mapped[str] = mapped_column(
+        String(255),
+    )
+    total_energy: Mapped[str] = mapped_column(
+        String(255),
     )
     balance: Mapped[Decimal] = mapped_column(
-        Numeric(10, 2),
+        Numeric(20, 2),
     )

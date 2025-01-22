@@ -7,8 +7,9 @@ from source.types.model_id import ModelIdType
 
 class WalletBase(BaseModel):
     address: str
-    bandwidth: int
-    energy: int
+    free_bandwidth: str
+    total_bandwidth: str
+    total_energy: str
     balance: Decimal
 
 
