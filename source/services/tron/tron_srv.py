@@ -38,9 +38,9 @@ class TronServiceImpl:
             total_bandwidth = resources.get("TotalNetLimit", 0)
             total_energy = resources.get("TotalEnergyLimit", 0)
             return TronResourceData(
-                free_bandwidth=free_bandwidth,
-                total_bandwidth=total_bandwidth,
-                total_energy=total_energy,
+                free_bandwidth=str(free_bandwidth),
+                total_bandwidth=str(total_bandwidth),
+                total_energy=str(total_energy),
             )
         except Exception as e:
             raise TronResourcesParseError(

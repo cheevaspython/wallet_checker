@@ -28,9 +28,10 @@ class CreateWalletInteractor:
             wallet = await self._wallet_gateway.save(
                 Wallet(
                     address=address,
-                    bandwidth=account_data.bandwidth,
-                    energy=account_data.energy,
                     balance=account_data.balance,
+                    free_bandwidth=account_data.resources_data.free_bandwidth,
+                    total_bandwidth=account_data.resources_data.total_bandwidth,
+                    total_energy=account_data.resources_data.total_energy,
                 ),
             )
             await self._commiter.commit()

@@ -10,8 +10,9 @@ def convert_wallet_to_output(
     return WalletResponseData(
         id=wallet.id,
         address=wallet.address,
-        bandwidth=wallet.bandwidth,
-        energy=wallet.energy,
         balance=wallet.balance,
+        free_bandwidth=wallet.free_bandwidth,
+        total_bandwidth=wallet.total_bandwidth,
+        total_energy=wallet.total_energy,
         created_date=wallet.created_date,
     )
