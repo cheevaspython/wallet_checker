@@ -6,8 +6,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
 
+from source.api.dependency.wallet.gateway import WalletGateway
+from source.api.dependency.wallet.gateway_impl import WalletGatewayImpl
 from source.db.db_helper import db_helper, test_db_helper
 from source.db.models.base import Base
+from source.db.sa_commiter import SACommiter
 from source.main import app
 
 
@@ -84,3 +87,13 @@ async def app_with_test_db(test_db_session: AsyncSession) -> AsyncGenerator:
     app.dependency_overrides[db_helper.session_getter] = override_get_db
     yield app
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def wallet_gateway(test_db_session: AsyncSession) -> WalletGateway:
+    return WalletGatewayImpl(session=test_db_session)
+
+
+@pytest.fixture
+def committer(test_db_session: AsyncSession) -> SACommiter:
+    return SACommiter(session=test_db_session)

@@ -36,20 +36,21 @@ class WalletReaderImpl:
     def _load_model_data(self, result: Result) -> WalletListPaginated:
         rows = result.all()
         total_count = rows[0].total_count if rows else 0
-        applications = []
+        wallets = []
 
         for row in rows:
-            application = WalletResponseData(
+            wallet = WalletResponseData(
                 id=row.Wallet.id,
                 address=row.Wallet.address,
-                bandwidth=row.Wallet.bandwidth,
-                energy=row.Wallet.energy,
                 balance=row.Wallet.balance,
+                free_bandwidth=row.Wallet.free_bandwidth,
+                total_bandwidth=row.Wallet.total_bandwidth,
+                total_energy=row.Wallet.total_energy,
                 created_date=row.Wallet.created_date,
             )
-            applications.append(application)
+            wallets.append(wallet)
 
         return WalletListPaginated(
             count=total_count,
-            results=applications,
+            results=wallets,
         )
