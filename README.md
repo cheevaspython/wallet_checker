@@ -1,23 +1,83 @@
-# FastAPI Skeleton with Dishka
 
-This is a simple skeleton for a FastAPI project using **Dishka** for dependency injection and configuration management.
+# Микросервис для работы с кошельками Tron
 
-## Getting Started
 
-To get started with this project, follow the steps below.
 
-### Prerequisites
+### Для запуска системы выполните команду:
 
-Make sure you have the following tools installed on your machine:
+```
+docker-compose up -d --build
+```
 
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
 
-### Running the Project
+Это поднимет базу данных и сам микросервис. 
 
-1. Clone the repository to your local machine:
+## Доступ к Swagger
 
-   ```bash
-   git clone https://github.com/yourusername/your-repository.git
-   cd your-repository
-   ```
+После того как система будет запущена, вы можете получить доступ к Swagger UI, который предоставляет удобный интерфейс для работы с API:
+
+**Swagger UI** - [http://localhost/docs](http://localhost/docs)
+
+С помощью Swagger UI вы сможете:
+
+- Просматривать доступные эндпоинты.
+- Отправлять запросы к API.
+- Смотреть документацию по параметрам и ответам.
+
+## Структура проекта
+
+- `docker-compose.yml` — файл конфигурации для запуска всех сервисов (Kafka, база данных, микросервис).
+- `source/` — основной код микросервиса.
+- `swagger/` — документация для взаимодействия с API.
+
+## Пример использования API
+
+Пример POST-запроса для отправки заявки:
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1/api/v1/wallet/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'value=TVjsyZ7fYF3qLF6BQgPmTEZy1xrNNyVAAA'
+
+Ответ:
+
+{
+  "address": "TVjsyZ7fYF3qLF6BQgPmTEZy1xrNNyVAAA",
+  "free_bandwidth": "600",
+  "total_bandwidth": "1000",
+  "total_energy": "500",
+  "balance": "5168.92",
+  "created_date": "01/22/2025, 15:25:43"
+}
+
+GET-запрос для получения списка последних запросов:
+
+curl -X 'GET' \
+  'http://127.0.0.1/api/v1/wallet/?offset=0&limit=10' \
+  -H 'accept: application/json'
+
+Ответ:
+
+{
+  "count": 11,
+  "results": [
+    {
+      "id": 1,
+      "address": "TVjsyZ7fYF3qLF6BQgPmTEZy1xrNNyVAAA",
+      "free_bandwidth": "600",
+      "total_bandwidth": "1000",
+      "total_energy": "500",
+      "balance": "5168.92",
+      "created_date": "01/22/2025, 15:25:43"
+    },
+    ...
+  ]
+}
+```
+
+Автор: [@nvim_msk]
+
+
+
