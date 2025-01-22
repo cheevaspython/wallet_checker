@@ -21,3 +21,7 @@ class WalletScheme(WalletBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: ModelIdType
+
+
+class WalletAddress(BaseModel):
+    value: str

@@ -3,14 +3,10 @@ from decimal import Decimal
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from source.api.dependency.wallet.gateway import WalletGateway
-from source.api.dependency.wallet.gateway_impl import WalletGatewayImpl
 from source.api.interactors.wallet.get import GetWalletInteractor
 from source.common.commiter import Commiter
 from source.db.models.wallet import Wallet
-from source.db.sa_commiter import SACommiter
 
 
 @pytest.mark.asyncio

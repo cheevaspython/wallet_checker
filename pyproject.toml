@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "dishka_skeleton"
+name = "wallet_checker"
 version = "0.1.0"
 description = ""
 authors = ["Vas <vas@va.va>"]
@@ -24,6 +24,7 @@ dishka = "^1.4.2"
 httpx = "^0.28.1"
 tronpy = "^0.5.0"
 pytz = "^2024.2"
+python-multipart = "^0.0.20"
 
 
 [build-system]

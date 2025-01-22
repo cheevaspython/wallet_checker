@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException, status
+from typing import Annotated
+from fastapi import APIRouter, Form, HTTPException, status
+
 from dishka.integrations.fastapi import DishkaRoute, inject, FromDishka
 
 from source.api.dependency.wallet.output_data import (
@@ -10,6 +12,7 @@ from source.api.interactors.wallet.get import GetWalletInteractor
 from source.api.queries.wallet.get_many import GetWallets
 from source.common.error import ApplicationError
 from source.filters.pagination import Pagination
+from source.schemas.pydantic.wallet import WalletAddress
 from source.services.convert_wallet import convert_wallet_to_output
 from source.types.model_id import ModelIdType
 
@@ -70,12 +73,12 @@ async def get_wallets(
 )
 @inject
 async def create_wallet(
-    wallet_address: str,
+    wallet_address: Annotated[WalletAddress, Form()],
     interactor: FromDishka[CreateWalletInteractor],
 ):
     try:
         application = await interactor(
-            address=wallet_address,
+            address=wallet_address.value,
         )
         return convert_wallet_to_output(application)
 

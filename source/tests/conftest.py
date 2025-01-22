@@ -1,7 +1,8 @@
-import pytest
 import asyncio
 from typing import AsyncGenerator, Generator
 
+import pytest
+import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 from httpx import AsyncClient, ASGITransport
 from fastapi import FastAPI
@@ -14,15 +15,14 @@ from source.db.sa_commiter import SACommiter
 from source.main import app
 
 
-@pytest.fixture(scope="function")
-def event_loop() -> Generator[asyncio.AbstractEventLoop]:
+@pytest.fixture(scope="session")
+def event_loop() -> Generator[asyncio.AbstractEventLoop, None, None]:
     """
     Fixture для получения и управления циклом событий asyncio.
 
     Если цикл событий уже запущен, возвращает его.
     Если нет, создаёт новый цикл событий.
     """
-
     try:
         loop = asyncio.get_running_loop()
     except RuntimeError:
@@ -48,8 +48,8 @@ async def setup_test_db(event_loop: asyncio.AbstractEventLoop) -> AsyncGenerator
         await conn.run_sync(Base.metadata.drop_all)
 
 
-@pytest.fixture(scope="function")
-async def async_client(app_with_test_db: FastAPI) -> AsyncGenerator[AsyncClient, None]:
+@pytest_asyncio.fixture(scope="function")
+async def async_client(app_with_test_db: FastAPI) -> AsyncClient:
     """
     Fixture для создания асинхронного клиента HTTP с подключением к FastAPI приложению.
 
@@ -61,7 +61,7 @@ async def async_client(app_with_test_db: FastAPI) -> AsyncGenerator[AsyncClient,
         yield client
 
 
-@pytest.fixture(scope="function")
+@pytest_asyncio.fixture(scope="function")
 async def test_db_session() -> AsyncGenerator[AsyncSession, None]:
     """
     Fixture для создания тестовой сессии базы данных.
@@ -75,7 +75,7 @@ async def test_db_session() -> AsyncGenerator[AsyncSession, None]:
         await session.close()
 
 
-@pytest.fixture(scope="function")
+@pytest_asyncio.fixture(scope="function")
 async def app_with_test_db(test_db_session: AsyncSession) -> AsyncGenerator:
     """
     Fixture для подмены зависимости базы данных в FastAPI приложении на тестовую сессию.
@@ -89,11 +89,11 @@ async def app_with_test_db(test_db_session: AsyncSession) -> AsyncGenerator:
     app.dependency_overrides.clear()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 def wallet_gateway(test_db_session: AsyncSession) -> WalletGateway:
     return WalletGatewayImpl(session=test_db_session)
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 def committer(test_db_session: AsyncSession) -> SACommiter:
     return SACommiter(session=test_db_session)
