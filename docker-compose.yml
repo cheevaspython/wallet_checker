@@ -44,8 +44,6 @@ services:
       - "80:8080"
     volumes_from:
       - backend
-    volumes:
-      - static:/static/
     restart: always
     networks:
       - app_network
@@ -57,7 +55,6 @@ services:
 
 volumes:
   application_db:
-  static:
 
 networks:
   app_network:

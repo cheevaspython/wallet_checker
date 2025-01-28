@@ -14,7 +14,7 @@ from source.common.commiter import Commiter
 from source.db.db_helper import db_helper
 from source.db.sa_commiter import SACommiter
 from source.config.settings import Settings, settings
-from source.services.tron.common import TronService
+from source.services.tron.protocol import TronService
 from source.services.tron.tron_srv import TronServiceImpl
 
 

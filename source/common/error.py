@@ -8,4 +8,5 @@ class ApplicationError(Exception):
 
     @property
     @abstractmethod
-    def message(self) -> str: ...
+    def message(self) -> str:
+        raise NotImplementedError

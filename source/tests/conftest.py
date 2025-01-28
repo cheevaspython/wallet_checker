@@ -1,7 +1,7 @@
-import asyncio
 from typing import AsyncGenerator, Generator
 
 import pytest
+import asyncio
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession
 from httpx import AsyncClient, ASGITransport

@@ -2,7 +2,7 @@ from source.api.dependency.wallet.gateway import WalletGateway
 from source.common.commiter import Commiter
 from source.common.error import ApplicationError
 from source.db.models.wallet import Wallet
-from source.services.tron.common import TronService
+from source.services.tron.protocol import TronService
 
 
 class CreateWalletInteractor:

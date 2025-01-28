@@ -1,6 +1,6 @@
 from typing import Annotated
-from fastapi import APIRouter, Form, HTTPException, status
 
+from fastapi import APIRouter, Form, HTTPException, status
 from dishka.integrations.fastapi import DishkaRoute, inject, FromDishka
 
 from source.api.dependency.wallet.output_data import (
